@@ -8,6 +8,8 @@ import com.microservicio.restaurant.infraestructure.output.jpa.repository.IResta
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class RestaurantJpaAdapter implements IRestaurantePersistencePort {
@@ -20,5 +22,15 @@ public class RestaurantJpaAdapter implements IRestaurantePersistencePort {
         RestaurantEntity restaurantEntity= restaurantEntityMapper.toEntity(restaurant);
         RestaurantEntity saveEntity = restaurantRepository.save(restaurantEntity);
         return restaurantEntityMapper.toDomain(saveEntity);
+    }
+
+    @Override
+    public List<Restaurant> findAllRestaurants() {
+        // Obtener todos los restaurantes desde la base de datos
+        List<RestaurantEntity> restaurantEntities = restaurantRepository.findAll();
+        // Mapeamos los restaurantes de entidad a dominio
+        return restaurantEntities.stream()
+                .map(restaurantEntityMapper::toDomain)
+                .toList();
     }
 }

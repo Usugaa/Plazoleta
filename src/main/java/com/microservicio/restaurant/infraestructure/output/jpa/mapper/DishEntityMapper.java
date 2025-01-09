@@ -22,15 +22,16 @@ public class DishEntityMapper {
         dishEntity.setUrlImage(dish.getUrlImage());
         dishEntity.setActive(dish.isActive());
 
+        // Asegúrate de que las categorías y restaurantes existan
         if (dish.getIdCategory() != null) {
             CategoryEntity category = new CategoryEntity();
-            category.setId(dish.getIdCategory());
+            category.setId(dish.getIdCategory());  // Aquí pasas el ID de la categoría
             dishEntity.setCategory(category);
         }
 
         if (dish.getIdRestaurant() != null) {
             RestaurantEntity restaurant = new RestaurantEntity();
-            restaurant.setId(dish.getIdRestaurant());
+            restaurant.setId(dish.getIdRestaurant());  // Aquí pasas el ID del restaurante
             dishEntity.setRestaurant(restaurant);
         }
 

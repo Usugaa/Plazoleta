@@ -6,6 +6,7 @@ import com.microservicio.restaurant.domain.model.Category;
 import com.microservicio.restaurant.domain.model.Dish;
 import com.microservicio.restaurant.domain.spi.IDishPersistencePort;
 
+import java.util.List;
 import java.util.Optional;
 
 public class DishUseCase implements IDishServicePort {
@@ -20,26 +21,40 @@ public class DishUseCase implements IDishServicePort {
     public Dish saveDish(Dish dish) {
         //Validar categoria
             Category category = validateCategory(dish.getIdCategory());
-            dish.setIdCategory(category.getId());
+            if (category == null) {
+                return null;
+            }
 
+            dish.setIdCategory(category.getId());
             return dishPersistencePort.saveDish(dish);
     }
 
     @Override
-    public Dish updateDish(Long id, String description, int price) {
-        Optional<Dish> optionalDish = dishPersistencePort.findById(id);
-
-        if (optionalDish.isPresent()) {
-            Dish dish = optionalDish.get();
-            dish.setDescription(description);
-            dish.setPrice(price);
-
-            return dishPersistencePort.updateDish(dish);
-        }
-        return null;
+    public Optional<Dish> findDishById(Long id) {
+        return dishPersistencePort.findDishById(id);
     }
 
+
+    @Override
+    public Dish updateDish(Long id, String description, int price) {
+        return dishPersistencePort.updateDish(id, description, price);
+    }
+
+    @Override
+    public Dish updateDishStatus(Long id, boolean active) {
+        return dishPersistencePort.updateDishStatus(id, active);
+    }
+
+    @Override
+    public List<Dish> getDishesByRestaurant(Long idRestaurant) {
+        return dishPersistencePort.findDishesByRestaurant(idRestaurant);
+    }
+
+
     private Category validateCategory(Long categoryId) {
+        if (categoryId == null) {
+            return null;
+        }
         if (categoryId.equals(CategoryConstants.APPETIZER)) {
             return new Category(CategoryConstants.APPETIZER, CategoryConstants.APPETIZER_NAME, CategoryConstants.APPETIZER_DESCRIPTION);
         } else if (categoryId.equals(CategoryConstants.COURSE)) {
@@ -47,7 +62,7 @@ public class DishUseCase implements IDishServicePort {
         } else if (categoryId.equals(CategoryConstants.DESSERT)) {
             return new Category(CategoryConstants.DESSERT, CategoryConstants.DESSERT_NAME, CategoryConstants.DESSERT_DESCRIPTION);
         } else {
-            return null; // Aquí no se maneja la excepción, se devuelve null si la categoría no es válida
+            return null; // Categoría no válida
         }
     }
 }

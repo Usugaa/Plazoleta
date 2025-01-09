@@ -10,7 +10,7 @@ public class Restaurant {
     private String urlLogo;
     private String nit;
 
-    public Restaurant(Long id, String nameRestaurant, String address, Long idOwner, String phone, String urlLogo, String nit) {
+    public Restaurant() {
         this.id = id;
         this.nameRestaurant = nameRestaurant;
         this.address = address;

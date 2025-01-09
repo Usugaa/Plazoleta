@@ -1,5 +1,6 @@
 package com.microservicio.restaurant.infraestructure.configuration;
 
+import com.microservicio.restaurant.application.mapper.DishRequestMapper;
 import com.microservicio.restaurant.domain.api.IDishServicePort;
 import com.microservicio.restaurant.domain.api.IRestaurantServicePort;
 import com.microservicio.restaurant.domain.spi.IDishPersistencePort;
@@ -45,12 +46,17 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IDishPersistencePort dishPersistencePort(IDishRepository dishRepository){
+    public IDishPersistencePort dishPersistencePort(IDishRepository dishRepository, DishEntityMapper dishEntityMapper) {
         return new DishJpaAdapter(dishRepository, dishEntityMapper);
     }
 
     @Bean
     public IDishServicePort dishServicePort(IDishPersistencePort dishPersistencePort){
         return new DishUseCase(dishPersistencePort);
+    }
+
+    @Bean
+    public DishRequestMapper dishRequestMapper() {
+        return new DishRequestMapper();
     }
 }

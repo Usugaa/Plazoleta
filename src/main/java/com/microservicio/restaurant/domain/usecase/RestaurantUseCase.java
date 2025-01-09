@@ -5,6 +5,8 @@ import com.microservicio.restaurant.domain.model.Restaurant;
 import com.microservicio.restaurant.domain.spi.IRestaurantePersistencePort;
 import com.microservicio.restaurant.domain.spi.IUserPersistencePort;
 
+import java.util.List;
+
 public class RestaurantUseCase implements IRestaurantServicePort {
 
     private final IRestaurantePersistencePort restaurantePersistencePort;
@@ -15,12 +17,18 @@ public class RestaurantUseCase implements IRestaurantServicePort {
         this.userPersistencePort = userPersistencePort;
     }
 
+
     @Override
     public Restaurant saveRestaurant(Restaurant restaurant) {
 
-        System.out.println(userPersistencePort.getUserById(restaurant.getIdOwner()));
+        userPersistencePort.getUserById(restaurant.getIdOwner());
 
         restaurantePersistencePort.saveRestaurant(restaurant);
         return restaurant;
+    }
+
+    @Override
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantePersistencePort.findAllRestaurants();
     }
 }

@@ -5,14 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DishResponse {
+public class UpdateDishRequest {
 
-    private String name;
-    private Long idCategory;
     private String description;
     private int price;
-    private Long idRestaurant;
-    private String urlImage;
-    private boolean active;
 
 }
