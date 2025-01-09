@@ -37,7 +37,4 @@ public class UserRequest {
     @NotNull(message = "La contraseña no puede ser nula")
     @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
     private String password;
-
-    @NotNull(message = "El rol no puede ser nulo")
-    private Long idRole;
 }

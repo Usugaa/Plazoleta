@@ -9,20 +9,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
+
     private final IUserHandler userHandler;
 
-    @PostMapping
-    public ResponseEntity<UserResponse> saveUser(@RequestBody UserRequest userRequest) {
-        UserResponse userResponse = userHandler.saveUser(userRequest);
+    @PostMapping("/admin")
+    public ResponseEntity<UserResponse> saveAdmin(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userHandler.saveAdmin(userRequest);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/owner")
+    public ResponseEntity<UserResponse> saveOwner(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userHandler.saveOwner(userRequest);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/employee")
+    public ResponseEntity<UserResponse> saveEmployee(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userHandler.saveEmployee(userRequest);
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/client")
+    public ResponseEntity<UserResponse> saveClient(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userHandler.saveClient(userRequest);
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Long> getUserById(@PathVariable("id") Long id){
-    Long userResponse = userHandler.getUserById(id);
-    return ResponseEntity.ok(userResponse);
+    public ResponseEntity<Long> getUserById(@PathVariable("id") Long id) {
+        Long userResponse = userHandler.getUserById(id);
+        return ResponseEntity.ok(userResponse);
     }
 }

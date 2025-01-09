@@ -5,9 +5,11 @@ import com.restaurant.plazoleta.application.dto.UserResponse;
 import com.restaurant.plazoleta.application.mapper.UserRequestMapper;
 import com.restaurant.plazoleta.application.mapper.UserResponseMapper;
 import com.restaurant.plazoleta.domain.api.IUserServicePort;
+import com.restaurant.plazoleta.domain.constants.RoleConstants;
 import com.restaurant.plazoleta.domain.model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,21 +22,49 @@ public class UserHandler implements IUserHandler {
     private final UserResponseMapper userResponseMapper;
 
     @Override
-    public UserResponse saveUser(UserRequest userRequest) {
+    public UserResponse saveAdmin(UserRequest userRequest) {
+        // Asignar rol de Administrador
         User user = userRequestMapper.toDomain(userRequest);
-        User saveUser = userServicePort.saveUser(user);
-        return userResponseMapper.toResponse(saveUser);
+        user.setIdRole(RoleConstants.ADMINISTRADOR);
+        User savedUser = userServicePort.saveUser(user);
+        return userResponseMapper.toResponse(savedUser);
+    }
+
+    @Override
+    public UserResponse saveOwner(UserRequest userRequest) {
+        // Asignar rol de Propietario
+        User user = userRequestMapper.toDomain(userRequest);
+        user.setIdRole(RoleConstants.PROPIETARIO);
+        User savedUser = userServicePort.saveUser(user);
+        return userResponseMapper.toResponse(savedUser);
+    }
+
+    @Override
+    public UserResponse saveEmployee(UserRequest userRequest) {
+        // Asignar rol de Empleado
+        User user = userRequestMapper.toDomain(userRequest);
+        user.setIdRole(RoleConstants.EMPLEADO);
+        User savedUser = userServicePort.saveUser(user);
+        return userResponseMapper.toResponse(savedUser);
+    }
+
+    @Override
+    public UserResponse saveClient(UserRequest userRequest) {
+        // Asignar rol de Cliente
+        User user = userRequestMapper.toDomain(userRequest);
+        user.setIdRole(RoleConstants.CLIENTE);
+        User savedUser = userServicePort.saveUser(user);
+        return userResponseMapper.toResponse(savedUser);
     }
 
     @Override
     public Long getUserById(Long id) {
-
-        User user = userServicePort.getUserById(id);
-        if (user == null) {
-            throw new IllegalArgumentException("Usuario no encontrado para el ID: " + id);
-        }
-
-        return user.getId();
-
+        return userServicePort.getUserById(id).getIdRole();
+    }
+    public Long getRoleIdFromAuthenticatedUser() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long userIdLong = Long.parseLong(userId);
+        User user = userServicePort.getUserById(userIdLong);
+        return user.getIdRole();
     }
 }

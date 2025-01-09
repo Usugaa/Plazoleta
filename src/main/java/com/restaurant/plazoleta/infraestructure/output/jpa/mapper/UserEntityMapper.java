@@ -19,7 +19,7 @@ public interface UserEntityMapper {
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "documentNumber", target = "documentNumber")
     @Mapping(source = "phone", target = "phone")
-    @Mapping(source = "birthdate", target = "birthdate") // Asegúrate de tener esta propiedad
+    @Mapping(source = "birthdate", target = "birthdate") // Asegúrate de tener esta propiedad en ambos lados
     @Mapping(source = "email", target = "email")
     @Mapping(source = "password", target = "password")
     @Mapping(source = "idRole", target = "idRole", qualifiedByName = "longToRoleEntity")
@@ -28,7 +28,7 @@ public interface UserEntityMapper {
     @Mapping(source = "idRole", target = "idRole", qualifiedByName = "roleEntityToLong")
     User toDomain(UserEntity userEntity);
 
-    // Métodos auxiliares
+    // Métodos auxiliares para convertir entre Long y RoleEntity
     @Named("longToRoleEntity")
     default RoleEntity longToRoleEntity(Long idRole) {
         if (idRole == null) {
