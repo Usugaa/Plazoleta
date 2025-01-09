@@ -8,5 +8,9 @@ public interface IUserPersistencePort {
 
     boolean existsByDocumentNumber(String documentNumber);
 
+    User getByEmailAndPassword(String email, String password);
+
+    User getByEmail(String email);
+
     User getUserById(Long id);
 }
