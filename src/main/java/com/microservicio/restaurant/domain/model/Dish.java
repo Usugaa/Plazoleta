@@ -11,6 +11,20 @@ public class Dish {
     private String urlImage;
     private boolean active = true;
 
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", idCategory=" + idCategory +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", idRestaurant=" + idRestaurant +
+                ", urlImage='" + urlImage + '\'' +
+                ", active=" + active +
+                '}';
+    }
+
     public Dish(Long id, String name, Long idCategory, String description, int price, Long idRestaurant, String urlImage, boolean active) {
         this.id = id;
         this.name = name;

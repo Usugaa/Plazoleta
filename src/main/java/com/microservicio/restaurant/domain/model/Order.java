@@ -5,15 +5,15 @@ import java.util.Date;
 public class Order {
 
     private Long id;
-    private Long idCliente;
+    private Long idClient;
     private Date date;
     private String status;
     private Long idEmpleoyee;
     private Long idRestaurant;
 
-    public Order(Long id, Long idCliente, Date date, String status, Long idEmpleoyee, Long idRestaurant) {
+    public Order(Long id, Long idClient, Date date, String status, Long idEmpleoyee, Long idRestaurant) {
         this.id = id;
-        this.idCliente = idCliente;
+        this.idClient = idClient;
         this.date = date;
         this.status = status;
         this.idEmpleoyee = idEmpleoyee;
@@ -28,12 +28,12 @@ public class Order {
         this.id = id;
     }
 
-    public Long getIdCliente() {
-        return idCliente;
+    public Long getIdClient() {
+        return idClient;
     }
 
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
+    public void setIdCliente(Long idClient) {
+        this.idClient = idClient;
     }
 
     public Date getDate() {

@@ -24,8 +24,8 @@ public class DishController {
 
     @Operation(summary = "createDish")
     @PostMapping
-    public DishResponse saveDish(@RequestBody DishRequest dishRequest) {
-        return dishHandler.saveDish(dishRequest);
+    public ResponseEntity<DishResponse> saveDish(@RequestBody DishRequest dishRequest) {
+        return ResponseEntity.ok(dishHandler.saveDish(dishRequest));
     }
 
     @GetMapping("/{id}")
