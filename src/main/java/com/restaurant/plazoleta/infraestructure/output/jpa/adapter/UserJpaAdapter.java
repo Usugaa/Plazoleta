@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -33,17 +34,17 @@ public class UserJpaAdapter implements IUserPersistencePort {
 
     @Override
     public User getByEmailAndPassword(String email, String password) {
-        UserEntity userEntity = userRepository.findByEmailAndPassword(email, password);
-        return UserEntityMapper2.toDomain(userEntity);
+        Optional<UserEntity> userEntity = userRepository.findByEmailAndPassword(email, password);
+        return UserEntityMapper2.toDomain(userEntity.orElse(null));
     }
 
     @Override
     public User getByEmail(String email) {
-        UserEntity userEntity = userRepository.findByEmail(email);
+        Optional<UserEntity> userEntity = userRepository.findByEmail(email);
         if (Objects.isNull(userEntity)) {
             throw new NoDataFoundException("User not found");
         }
-        return UserEntityMapper2.toDomain(userEntity);
+        return UserEntityMapper2.toDomain(userEntity.orElse(null));
     }
 
     @Override

@@ -13,22 +13,31 @@ import com.restaurant.plazoleta.infraestructure.output.jpa.mapper.RoleEntityMapp
 import com.restaurant.plazoleta.infraestructure.output.jpa.mapper.UserEntityMapper;
 import com.restaurant.plazoleta.infraestructure.output.jpa.repository.IRoleRepository;
 import com.restaurant.plazoleta.infraestructure.output.jpa.repository.IUserRepository;
+import com.restaurant.plazoleta.infraestructure.security.AuthManager;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
+
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final UserEntityMapper userEntityMapper;
     private final RoleEntityMapper roleEntityMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
-    public IUserPersistencePort userPersistencePort(){
+    public AuthenticationManager authenticationManager() {
+        return new AuthManager(userRepository, passwordEncoder);
+    }
+
+    @Bean
+    public IUserPersistencePort userPersistencePort() {
         return new UserJpaAdapter(userRepository, userEntityMapper);
     }
 
@@ -43,7 +52,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IUserServicePort userServicePort(IUserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder){
+    public IUserServicePort userServicePort(IUserPersistencePort userPersistencePort, PasswordEncoder passwordEncoder) {
         return new UserUseCase(userPersistencePort, passwordEncoder);
     }
 
@@ -51,5 +60,4 @@ public class BeanConfiguration {
     public IRoleServicePort roleServicePort() {
         return new RoleUseCase(rolePersistencePort());
     }
-
 }

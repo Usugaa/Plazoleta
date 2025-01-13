@@ -1,5 +1,7 @@
 package com.restaurant.plazoleta.application.handler;
 
+import com.restaurant.plazoleta.application.dto.AuthRequest;
+import com.restaurant.plazoleta.application.dto.AuthResponse;
 import com.restaurant.plazoleta.application.dto.UserRequest;
 import com.restaurant.plazoleta.application.dto.UserResponse;
 
@@ -10,5 +12,6 @@ public interface IUserHandler {
     UserResponse saveClient(UserRequest userRequest);
     Long getUserById(Long id);
     Long getRoleIdFromAuthenticatedUser();
+    AuthResponse authenticate(AuthRequest authRequest);
 
 }

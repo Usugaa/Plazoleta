@@ -5,13 +5,15 @@ import org.hibernate.annotations.NotFound;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsByDocumentNumber(String documentNumber);
 
-    UserEntity findByEmailAndPassword(String email, String password);
+    Optional<UserEntity> findByEmailAndPassword(String email, String password);
 
     @NotFound
-    UserEntity findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 }

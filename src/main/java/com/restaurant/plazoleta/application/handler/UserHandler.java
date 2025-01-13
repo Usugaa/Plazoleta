@@ -1,5 +1,7 @@
 package com.restaurant.plazoleta.application.handler;
 
+import com.restaurant.plazoleta.application.dto.AuthRequest;
+import com.restaurant.plazoleta.application.dto.AuthResponse;
 import com.restaurant.plazoleta.application.dto.UserRequest;
 import com.restaurant.plazoleta.application.dto.UserResponse;
 import com.restaurant.plazoleta.application.mapper.UserRequestMapper;
@@ -66,5 +68,17 @@ public class UserHandler implements IUserHandler {
         Long userIdLong = Long.parseLong(userId);
         User user = userServicePort.getUserById(userIdLong);
         return user.getIdRole();
+    }
+
+    @Override
+    public AuthResponse authenticate(AuthRequest authRequest) {
+
+        User user = userServicePort.authenticate(authRequest.getEmail(), authRequest.getPassword());
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setEmail(user.getEmail());
+        authResponse.setPassword(user.getPassword());
+
+        return authResponse;
     }
 }

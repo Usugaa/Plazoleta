@@ -8,4 +8,6 @@ public interface IUserServicePort {
 
     User getUserById(Long id);
 
+    User authenticate(String email, String password);
+
 }

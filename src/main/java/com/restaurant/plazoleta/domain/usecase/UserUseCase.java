@@ -34,4 +34,15 @@ public class UserUseCase implements IUserServicePort {
     public User getUserById(Long id) {
         return userPersistencePort.getUserById(id);
     }
+
+    @Override
+    public User authenticate(String email, String password) {
+        User user = userPersistencePort.getByEmail(email);
+        if (user == null) {
+            throw new IllegalArgumentException("Usuario no encontrado.");
+        }
+
+        return user;
+
+    }
 }
